@@ -1,0 +1,23 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model patient {
+    id         String      @id @default(uuid())
+    patient_id Int         @unique
+    name       String
+    usg_image  usg_image[]
+}
+
+model usg_image {
+    id                String   @id @default(uuid())
+    patient           patient  @relation(fields: [patient_id], references: [patient_id])
+    patient_id        Int
+    examination_date DateTime
+    url               String
+}
